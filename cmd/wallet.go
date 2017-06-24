@@ -20,6 +20,7 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/x509"
+	"encoding/hex"
 
 	"github.com/spf13/cobra"
 )
@@ -34,13 +35,14 @@ and usage of using your command. For example:
 Cobra wallets when I tell it to.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("wallet called")
+		fmt.Println()
 
 		private_key, public_key := genPPKeys(rand.Reader)
-		fmt.Print("private key: ")
-		fmt.Println(private_key)
+		fmt.Print("private key: 0x")
+		fmt.Println(hex.EncodeToString(private_key[:]))
 		fmt.Println()
-		fmt.Print("public key: ")
-		fmt.Println(public_key)
+		fmt.Print("public key: 0x")
+		fmt.Println(hex.EncodeToString(public_key[:]))
 		fmt.Println()
 	},
 }
@@ -54,14 +56,15 @@ func genPPKeys(random io.Reader) (private_key_bytes, public_key_bytes []byte) {
 
 func init() {
 	RootCmd.AddCommand(walletCmd)
+	fmt.Println("wallet init")
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// serveCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// walletCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// serveCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// walletCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
